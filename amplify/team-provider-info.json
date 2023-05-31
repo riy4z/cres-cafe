@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-crescafe-staging-62755-authRole",
+      "UnauthRoleArn": "arn:aws:iam::869782609109:role/amplify-crescafe-staging-62755-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::869782609109:role/amplify-crescafe-staging-62755-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-crescafe-staging-62755-deployment",
+      "UnauthRoleName": "amplify-crescafe-staging-62755-unauthRole",
+      "StackName": "amplify-crescafe-staging-62755",
+      "StackId": "arn:aws:cloudformation:ap-south-1:869782609109:stack/amplify-crescafe-staging-62755/8b760b30-b01e-11ed-bb76-025a43c0aa8e",
+      "AmplifyAppId": "d2xe3himvpnuvg"
+    },
+    "categories": {
+      "auth": {
+        "CresCafe": {}
+      }
+    }
+  }
+}

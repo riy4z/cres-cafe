@@ -1,0 +1,71 @@
+type Cart @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  CartDishes: [CartDish] @hasMany(indexName: "byCart", fields: ["id"])
+  userID: ID! @index(name: "byUser")
+  canteenID: ID! @index(name: "byCanteen")
+}
+
+enum OrderStatus {
+  NEW
+  COOKING
+  READY_FOR_PICKUP
+  PICKED_UP
+  COMPLETED
+  DECLINED_BY_CANTEEN
+}
+
+type OrderDish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  quantity: Int!
+  Dish: Dish @hasOne
+  orderID: ID! @index(name: "byOrder")
+}
+
+type Order @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  Canteen: Canteen @hasOne
+  total: Int!
+  status: OrderStatus!
+  OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
+}
+
+type CartDish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  quantity: Int!
+  Dish: Dish @hasOne
+  cartID: ID! @index(name: "byCart")
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  uname: String!
+  Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
+  Carts: [Cart] @hasMany(indexName: "byUser", fields: ["id"])
+  sub: String!
+  phone: AWSPhone
+  email: String
+  department: String
+  RRN: String
+}
+
+type Dish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  names: String!
+  image_url: String
+  price: Int!
+  rating: Float!
+  categories: String!
+  description: String!
+  canteenID: ID! @index(name: "byCanteen")
+}
+
+type Canteen @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  Dishes: [Dish] @hasMany(indexName: "byCanteen", fields: ["id"])
+  Carts: [Cart] @hasMany(indexName: "byCanteen", fields: ["id"])
+  image: String
+  adminSub: String
+}
+ 

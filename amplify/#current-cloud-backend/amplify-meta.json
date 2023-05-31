@@ -1,0 +1,92 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-crescafe-staging-62755-authRole",
+      "UnauthRoleArn": "arn:aws:iam::869782609109:role/amplify-crescafe-staging-62755-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::869782609109:role/amplify-crescafe-staging-62755-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-crescafe-staging-62755-deployment",
+      "UnauthRoleName": "amplify-crescafe-staging-62755-unauthRole",
+      "StackName": "amplify-crescafe-staging-62755",
+      "StackId": "arn:aws:cloudformation:ap-south-1:869782609109:stack/amplify-crescafe-staging-62755/8b760b30-b01e-11ed-bb76-025a43c0aa8e",
+      "AmplifyAppId": "d2xe3himvpnuvg"
+    }
+  },
+  "api": {
+    "CresCafe": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          }
+        },
+        "GraphQLAPIIdOutput": "xq25cnokpbfpnncyl6fqbrb27y",
+        "GraphQLAPIEndpointOutput": "https://nkz34d33hfertdwqubaboqm75y.appsync-api.ap-south-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-wr6nqxvwurazdev3gwsrszwtiy"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "lastPushTimeStamp": "2023-03-02T06:18:12.306Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-crescafe-staging-62755-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiCresCafe"
+      },
+      "lastPushDirHash": "REMkzKrutii5Att9R0srrgnN5AE="
+    }
+  },
+  "auth": {
+    "CresCafe": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_UPPERCASE"
+          ]
+        },
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "CreatedSNSRole": "arn:aws:iam::869782609109:role/sns997010af62755-staging",
+        "UserPoolId": "ap-south-1_vfCQpZDW5",
+        "AppClientIDWeb": "5rk9dq8go9nl7ut745cr2sanr0",
+        "AppClientID": "14bfh80122dtphmijcf2b0hgah",
+        "IdentityPoolId": "ap-south-1:a03d3051-56d3-450c-a69d-3ea22902cfb7",
+        "UserPoolArn": "arn:aws:cognito-idp:ap-south-1:869782609109:userpool/ap-south-1_vfCQpZDW5",
+        "IdentityPoolName": "testAuthIdentityPool__staging",
+        "UserPoolName": "CresCafe"
+      },
+      "lastPushTimeStamp": "2023-03-02T06:18:12.260Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-crescafe-staging-62755-deployment/amplify-cfn-templates/auth/CresCafe-cloudformation-template.json",
+        "logicalId": "authCresCafe"
+      }
+    }
+  }
+}

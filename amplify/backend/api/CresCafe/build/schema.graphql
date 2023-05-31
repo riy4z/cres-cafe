@@ -1,0 +1,760 @@
+
+type Cart @aws_iam @aws_api_key {
+  id: ID!
+  CartDishes(filter: ModelCartDishFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCartDishConnection
+  userID: ID!
+  canteenID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum OrderStatus {
+  NEW
+  COOKING
+  READY_FOR_PICKUP
+  PICKED_UP
+  COMPLETED
+  DECLINED_BY_CANTEEN
+}
+
+type OrderDish @aws_iam @aws_api_key {
+  id: ID!
+  quantity: Int!
+  Dish: Dish
+  orderID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  orderDishDishId: ID
+}
+
+type Order @aws_iam @aws_api_key {
+  id: ID!
+  userID: ID!
+  Canteen: Canteen
+  total: Int!
+  status: OrderStatus!
+  OrderDishes(filter: ModelOrderDishFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOrderDishConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  orderCanteenId: ID
+}
+
+type CartDish @aws_iam @aws_api_key {
+  id: ID!
+  quantity: Int!
+  Dish: Dish
+  cartID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  cartDishDishId: ID
+}
+
+type User @aws_iam @aws_api_key {
+  id: ID!
+  uname: String!
+  Orders(filter: ModelOrderFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOrderConnection
+  Carts(filter: ModelCartFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCartConnection
+  sub: String!
+  phone: AWSPhone
+  email: String
+  department: String
+  RRN: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Dish @aws_iam @aws_api_key {
+  id: ID!
+  names: String!
+  image_url: String
+  price: Int!
+  rating: Float!
+  categories: String!
+  description: String!
+  canteenID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Canteen @aws_iam @aws_api_key {
+  id: ID!
+  name: String!
+  Dishes(filter: ModelDishFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelDishConnection
+  Carts(filter: ModelCartFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCartConnection
+  image: String
+  adminSub: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelCartConnection @aws_api_key @aws_iam {
+  items: [Cart]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCartFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  canteenID: ModelIDInput
+  and: [ModelCartFilterInput]
+  or: [ModelCartFilterInput]
+  not: ModelCartFilterInput
+}
+
+type Query {
+  getCart(id: ID!): Cart @aws_api_key @aws_iam
+  listCarts(filter: ModelCartFilterInput, limit: Int, nextToken: String): ModelCartConnection @aws_api_key @aws_iam
+  syncCarts(filter: ModelCartFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCartConnection @aws_api_key @aws_iam
+  cartsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelCartFilterInput, limit: Int, nextToken: String): ModelCartConnection @aws_api_key @aws_iam
+  cartsByCanteenID(canteenID: ID!, sortDirection: ModelSortDirection, filter: ModelCartFilterInput, limit: Int, nextToken: String): ModelCartConnection @aws_api_key @aws_iam
+  getOrderDish(id: ID!): OrderDish @aws_api_key @aws_iam
+  listOrderDishes(filter: ModelOrderDishFilterInput, limit: Int, nextToken: String): ModelOrderDishConnection @aws_api_key @aws_iam
+  syncOrderDishes(filter: ModelOrderDishFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOrderDishConnection @aws_api_key @aws_iam
+  orderDishesByOrderID(orderID: ID!, sortDirection: ModelSortDirection, filter: ModelOrderDishFilterInput, limit: Int, nextToken: String): ModelOrderDishConnection @aws_api_key @aws_iam
+  getOrder(id: ID!): Order @aws_api_key @aws_iam
+  listOrders(filter: ModelOrderFilterInput, limit: Int, nextToken: String): ModelOrderConnection @aws_api_key @aws_iam
+  syncOrders(filter: ModelOrderFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOrderConnection @aws_api_key @aws_iam
+  ordersByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelOrderFilterInput, limit: Int, nextToken: String): ModelOrderConnection @aws_api_key @aws_iam
+  getCartDish(id: ID!): CartDish @aws_api_key @aws_iam
+  listCartDishes(filter: ModelCartDishFilterInput, limit: Int, nextToken: String): ModelCartDishConnection @aws_api_key @aws_iam
+  syncCartDishes(filter: ModelCartDishFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCartDishConnection @aws_api_key @aws_iam
+  cartDishesByCartID(cartID: ID!, sortDirection: ModelSortDirection, filter: ModelCartDishFilterInput, limit: Int, nextToken: String): ModelCartDishConnection @aws_api_key @aws_iam
+  getUser(id: ID!): User @aws_api_key @aws_iam
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_iam
+  syncUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelUserConnection @aws_api_key @aws_iam
+  getDish(id: ID!): Dish @aws_api_key @aws_iam
+  listDishes(filter: ModelDishFilterInput, limit: Int, nextToken: String): ModelDishConnection @aws_api_key @aws_iam
+  syncDishes(filter: ModelDishFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelDishConnection @aws_api_key @aws_iam
+  dishesByCanteenID(canteenID: ID!, sortDirection: ModelSortDirection, filter: ModelDishFilterInput, limit: Int, nextToken: String): ModelDishConnection @aws_api_key @aws_iam
+  getCanteen(id: ID!): Canteen @aws_api_key @aws_iam
+  listCanteens(filter: ModelCanteenFilterInput, limit: Int, nextToken: String): ModelCanteenConnection @aws_api_key @aws_iam
+  syncCanteens(filter: ModelCanteenFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCanteenConnection @aws_api_key @aws_iam
+}
+
+input ModelCartConditionInput {
+  userID: ModelIDInput
+  canteenID: ModelIDInput
+  and: [ModelCartConditionInput]
+  or: [ModelCartConditionInput]
+  not: ModelCartConditionInput
+}
+
+input CreateCartInput {
+  id: ID
+  userID: ID!
+  canteenID: ID!
+  _version: Int
+}
+
+input UpdateCartInput {
+  id: ID!
+  userID: ID
+  canteenID: ID
+  _version: Int
+}
+
+input DeleteCartInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createCart(input: CreateCartInput!, condition: ModelCartConditionInput): Cart @aws_api_key @aws_iam
+  updateCart(input: UpdateCartInput!, condition: ModelCartConditionInput): Cart @aws_api_key @aws_iam
+  deleteCart(input: DeleteCartInput!, condition: ModelCartConditionInput): Cart @aws_api_key @aws_iam
+  createOrderDish(input: CreateOrderDishInput!, condition: ModelOrderDishConditionInput): OrderDish @aws_api_key @aws_iam
+  updateOrderDish(input: UpdateOrderDishInput!, condition: ModelOrderDishConditionInput): OrderDish @aws_api_key @aws_iam
+  deleteOrderDish(input: DeleteOrderDishInput!, condition: ModelOrderDishConditionInput): OrderDish @aws_api_key @aws_iam
+  createOrder(input: CreateOrderInput!, condition: ModelOrderConditionInput): Order @aws_api_key @aws_iam
+  updateOrder(input: UpdateOrderInput!, condition: ModelOrderConditionInput): Order @aws_api_key @aws_iam
+  deleteOrder(input: DeleteOrderInput!, condition: ModelOrderConditionInput): Order @aws_api_key @aws_iam
+  createCartDish(input: CreateCartDishInput!, condition: ModelCartDishConditionInput): CartDish @aws_api_key @aws_iam
+  updateCartDish(input: UpdateCartDishInput!, condition: ModelCartDishConditionInput): CartDish @aws_api_key @aws_iam
+  deleteCartDish(input: DeleteCartDishInput!, condition: ModelCartDishConditionInput): CartDish @aws_api_key @aws_iam
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  createDish(input: CreateDishInput!, condition: ModelDishConditionInput): Dish @aws_api_key @aws_iam
+  updateDish(input: UpdateDishInput!, condition: ModelDishConditionInput): Dish @aws_api_key @aws_iam
+  deleteDish(input: DeleteDishInput!, condition: ModelDishConditionInput): Dish @aws_api_key @aws_iam
+  createCanteen(input: CreateCanteenInput!, condition: ModelCanteenConditionInput): Canteen @aws_api_key @aws_iam
+  updateCanteen(input: UpdateCanteenInput!, condition: ModelCanteenConditionInput): Canteen @aws_api_key @aws_iam
+  deleteCanteen(input: DeleteCanteenInput!, condition: ModelCanteenConditionInput): Canteen @aws_api_key @aws_iam
+}
+
+input ModelSubscriptionCartFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  canteenID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionCartFilterInput]
+  or: [ModelSubscriptionCartFilterInput]
+}
+
+type Subscription {
+  onCreateCart(filter: ModelSubscriptionCartFilterInput): Cart @aws_subscribe(mutations: ["createCart"]) @aws_api_key @aws_iam
+  onUpdateCart(filter: ModelSubscriptionCartFilterInput): Cart @aws_subscribe(mutations: ["updateCart"]) @aws_api_key @aws_iam
+  onDeleteCart(filter: ModelSubscriptionCartFilterInput): Cart @aws_subscribe(mutations: ["deleteCart"]) @aws_api_key @aws_iam
+  onCreateOrderDish(filter: ModelSubscriptionOrderDishFilterInput): OrderDish @aws_subscribe(mutations: ["createOrderDish"]) @aws_api_key @aws_iam
+  onUpdateOrderDish(filter: ModelSubscriptionOrderDishFilterInput): OrderDish @aws_subscribe(mutations: ["updateOrderDish"]) @aws_api_key @aws_iam
+  onDeleteOrderDish(filter: ModelSubscriptionOrderDishFilterInput): OrderDish @aws_subscribe(mutations: ["deleteOrderDish"]) @aws_api_key @aws_iam
+  onCreateOrder(filter: ModelSubscriptionOrderFilterInput): Order @aws_subscribe(mutations: ["createOrder"]) @aws_api_key @aws_iam
+  onUpdateOrder(filter: ModelSubscriptionOrderFilterInput): Order @aws_subscribe(mutations: ["updateOrder"]) @aws_api_key @aws_iam
+  onDeleteOrder(filter: ModelSubscriptionOrderFilterInput): Order @aws_subscribe(mutations: ["deleteOrder"]) @aws_api_key @aws_iam
+  onCreateCartDish(filter: ModelSubscriptionCartDishFilterInput): CartDish @aws_subscribe(mutations: ["createCartDish"]) @aws_api_key @aws_iam
+  onUpdateCartDish(filter: ModelSubscriptionCartDishFilterInput): CartDish @aws_subscribe(mutations: ["updateCartDish"]) @aws_api_key @aws_iam
+  onDeleteCartDish(filter: ModelSubscriptionCartDishFilterInput): CartDish @aws_subscribe(mutations: ["deleteCartDish"]) @aws_api_key @aws_iam
+  onCreateUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["createUser"]) @aws_api_key @aws_iam
+  onUpdateUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["updateUser"]) @aws_api_key @aws_iam
+  onDeleteUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["deleteUser"]) @aws_api_key @aws_iam
+  onCreateDish(filter: ModelSubscriptionDishFilterInput): Dish @aws_subscribe(mutations: ["createDish"]) @aws_api_key @aws_iam
+  onUpdateDish(filter: ModelSubscriptionDishFilterInput): Dish @aws_subscribe(mutations: ["updateDish"]) @aws_api_key @aws_iam
+  onDeleteDish(filter: ModelSubscriptionDishFilterInput): Dish @aws_subscribe(mutations: ["deleteDish"]) @aws_api_key @aws_iam
+  onCreateCanteen(filter: ModelSubscriptionCanteenFilterInput): Canteen @aws_subscribe(mutations: ["createCanteen"]) @aws_api_key @aws_iam
+  onUpdateCanteen(filter: ModelSubscriptionCanteenFilterInput): Canteen @aws_subscribe(mutations: ["updateCanteen"]) @aws_api_key @aws_iam
+  onDeleteCanteen(filter: ModelSubscriptionCanteenFilterInput): Canteen @aws_subscribe(mutations: ["deleteCanteen"]) @aws_api_key @aws_iam
+}
+
+type ModelOrderDishConnection @aws_api_key @aws_iam {
+  items: [OrderDish]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOrderDishFilterInput {
+  id: ModelIDInput
+  quantity: ModelIntInput
+  orderID: ModelIDInput
+  and: [ModelOrderDishFilterInput]
+  or: [ModelOrderDishFilterInput]
+  not: ModelOrderDishFilterInput
+  orderDishDishId: ModelIDInput
+}
+
+input ModelOrderDishConditionInput {
+  quantity: ModelIntInput
+  orderID: ModelIDInput
+  and: [ModelOrderDishConditionInput]
+  or: [ModelOrderDishConditionInput]
+  not: ModelOrderDishConditionInput
+  orderDishDishId: ModelIDInput
+}
+
+input CreateOrderDishInput {
+  id: ID
+  quantity: Int!
+  orderID: ID!
+  _version: Int
+  orderDishDishId: ID
+}
+
+input UpdateOrderDishInput {
+  id: ID!
+  quantity: Int
+  orderID: ID
+  _version: Int
+  orderDishDishId: ID
+}
+
+input DeleteOrderDishInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionOrderDishFilterInput {
+  id: ModelSubscriptionIDInput
+  quantity: ModelSubscriptionIntInput
+  orderID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionOrderDishFilterInput]
+  or: [ModelSubscriptionOrderDishFilterInput]
+}
+
+type ModelOrderConnection @aws_api_key @aws_iam {
+  items: [Order]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOrderStatusInput {
+  eq: OrderStatus
+  ne: OrderStatus
+}
+
+input ModelOrderFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  total: ModelIntInput
+  status: ModelOrderStatusInput
+  and: [ModelOrderFilterInput]
+  or: [ModelOrderFilterInput]
+  not: ModelOrderFilterInput
+  orderCanteenId: ModelIDInput
+}
+
+input ModelOrderConditionInput {
+  userID: ModelIDInput
+  total: ModelIntInput
+  status: ModelOrderStatusInput
+  and: [ModelOrderConditionInput]
+  or: [ModelOrderConditionInput]
+  not: ModelOrderConditionInput
+  orderCanteenId: ModelIDInput
+}
+
+input CreateOrderInput {
+  id: ID
+  userID: ID!
+  total: Int!
+  status: OrderStatus!
+  _version: Int
+  orderCanteenId: ID
+}
+
+input UpdateOrderInput {
+  id: ID!
+  userID: ID
+  total: Int
+  status: OrderStatus
+  _version: Int
+  orderCanteenId: ID
+}
+
+input DeleteOrderInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionOrderFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  total: ModelSubscriptionIntInput
+  status: ModelSubscriptionStringInput
+  and: [ModelSubscriptionOrderFilterInput]
+  or: [ModelSubscriptionOrderFilterInput]
+}
+
+type ModelCartDishConnection @aws_iam @aws_api_key {
+  items: [CartDish]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCartDishFilterInput {
+  id: ModelIDInput
+  quantity: ModelIntInput
+  cartID: ModelIDInput
+  and: [ModelCartDishFilterInput]
+  or: [ModelCartDishFilterInput]
+  not: ModelCartDishFilterInput
+  cartDishDishId: ModelIDInput
+}
+
+input ModelCartDishConditionInput {
+  quantity: ModelIntInput
+  cartID: ModelIDInput
+  and: [ModelCartDishConditionInput]
+  or: [ModelCartDishConditionInput]
+  not: ModelCartDishConditionInput
+  cartDishDishId: ModelIDInput
+}
+
+input CreateCartDishInput {
+  id: ID
+  quantity: Int!
+  cartID: ID!
+  _version: Int
+  cartDishDishId: ID
+}
+
+input UpdateCartDishInput {
+  id: ID!
+  quantity: Int
+  cartID: ID
+  _version: Int
+  cartDishDishId: ID
+}
+
+input DeleteCartDishInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionCartDishFilterInput {
+  id: ModelSubscriptionIDInput
+  quantity: ModelSubscriptionIntInput
+  cartID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionCartDishFilterInput]
+  or: [ModelSubscriptionCartDishFilterInput]
+}
+
+type ModelUserConnection @aws_api_key @aws_iam {
+  items: [User]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  uname: ModelStringInput
+  sub: ModelStringInput
+  phone: ModelStringInput
+  email: ModelStringInput
+  department: ModelStringInput
+  RRN: ModelStringInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+}
+
+input ModelUserConditionInput {
+  uname: ModelStringInput
+  sub: ModelStringInput
+  phone: ModelStringInput
+  email: ModelStringInput
+  department: ModelStringInput
+  RRN: ModelStringInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+}
+
+input CreateUserInput {
+  id: ID
+  uname: String!
+  sub: String!
+  phone: AWSPhone
+  email: String
+  department: String
+  RRN: String
+  _version: Int
+}
+
+input UpdateUserInput {
+  id: ID!
+  uname: String
+  sub: String
+  phone: AWSPhone
+  email: String
+  department: String
+  RRN: String
+  _version: Int
+}
+
+input DeleteUserInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionUserFilterInput {
+  id: ModelSubscriptionIDInput
+  uname: ModelSubscriptionStringInput
+  sub: ModelSubscriptionStringInput
+  phone: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  department: ModelSubscriptionStringInput
+  RRN: ModelSubscriptionStringInput
+  and: [ModelSubscriptionUserFilterInput]
+  or: [ModelSubscriptionUserFilterInput]
+}
+
+type ModelDishConnection @aws_api_key @aws_iam {
+  items: [Dish]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelDishFilterInput {
+  id: ModelIDInput
+  names: ModelStringInput
+  image_url: ModelStringInput
+  price: ModelIntInput
+  rating: ModelFloatInput
+  categories: ModelStringInput
+  description: ModelStringInput
+  canteenID: ModelIDInput
+  and: [ModelDishFilterInput]
+  or: [ModelDishFilterInput]
+  not: ModelDishFilterInput
+}
+
+input ModelDishConditionInput {
+  names: ModelStringInput
+  image_url: ModelStringInput
+  price: ModelIntInput
+  rating: ModelFloatInput
+  categories: ModelStringInput
+  description: ModelStringInput
+  canteenID: ModelIDInput
+  and: [ModelDishConditionInput]
+  or: [ModelDishConditionInput]
+  not: ModelDishConditionInput
+}
+
+input CreateDishInput {
+  id: ID
+  names: String!
+  image_url: String
+  price: Int!
+  rating: Float!
+  categories: String!
+  description: String!
+  canteenID: ID!
+  _version: Int
+}
+
+input UpdateDishInput {
+  id: ID!
+  names: String
+  image_url: String
+  price: Int
+  rating: Float
+  categories: String
+  description: String
+  canteenID: ID
+  _version: Int
+}
+
+input DeleteDishInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionDishFilterInput {
+  id: ModelSubscriptionIDInput
+  names: ModelSubscriptionStringInput
+  image_url: ModelSubscriptionStringInput
+  price: ModelSubscriptionIntInput
+  rating: ModelSubscriptionFloatInput
+  categories: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  canteenID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionDishFilterInput]
+  or: [ModelSubscriptionDishFilterInput]
+}
+
+type ModelCanteenConnection @aws_api_key @aws_iam {
+  items: [Canteen]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCanteenFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  image: ModelStringInput
+  adminSub: ModelStringInput
+  and: [ModelCanteenFilterInput]
+  or: [ModelCanteenFilterInput]
+  not: ModelCanteenFilterInput
+}
+
+input ModelCanteenConditionInput {
+  name: ModelStringInput
+  image: ModelStringInput
+  adminSub: ModelStringInput
+  and: [ModelCanteenConditionInput]
+  or: [ModelCanteenConditionInput]
+  not: ModelCanteenConditionInput
+}
+
+input CreateCanteenInput {
+  id: ID
+  name: String!
+  image: String
+  adminSub: String
+  _version: Int
+}
+
+input UpdateCanteenInput {
+  id: ID!
+  name: String
+  image: String
+  adminSub: String
+  _version: Int
+}
+
+input DeleteCanteenInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionCanteenFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  image: ModelSubscriptionStringInput
+  adminSub: ModelSubscriptionStringInput
+  and: [ModelSubscriptionCanteenFilterInput]
+  or: [ModelSubscriptionCanteenFilterInput]
+}
+

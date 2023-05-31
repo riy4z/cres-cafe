@@ -1,0 +1,13 @@
+{
+    "AppSyncApiName": "CresCafe",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "S3DeploymentBucket": "amplify-crescafe-staging-62755-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/0ba1270d26b058936e3f909f3a24a4f24c0316af"
+}
