@@ -93,11 +93,11 @@ Mohamed Fahad
 
 Majid
 
-Shehnaz Rasheetha
+[Shehnaz Rasheetha](https://github.com/ShehnazH)
 
 [notJustdev](https://www.notjust.dev/) [Reference]
 
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+There is no license for this project.
